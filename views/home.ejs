@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        #messageHolder {
+            /* border: 2px solid red; */
+            height: 92vh;
+            background: url('https://i.pinimg.com/originals/e8/d9/4e/e8d94e1e8b6b530ad315e9385290141b.jpg');
+            background-position: center;
+            background-size: cover;
+            object-fit: cover;
+            padding: 50px;
+            overflow-y: auto;
+        }
+
+        #messageHolder::-webkit-scrollbar {
+            width: 0;
+            display: none;
+        }
+
+        .skjd {
+            background: #d9d9d9;
+            border-radius: 3px;
+            padding: 10px;
+            float: left;
+            clear: both;
+            padding: 10px 40px;
+            background: #202C33;
+            color: white;
+            border-radius: 5px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+            gap: 0.4rem;
+            align-items: flex-end;
+            flex-direction: column-reverse;
+        }
+
+        .skjd b {
+            float: right;
+        }
+
+        .firstUser {
+            float: right;
+            margin: 10px 0;
+            clear: both;
+            padding: 10px 40px;
+            display: flex;
+            justify-content: center;
+            gap: 0.4rem;
+            flex-direction: column-reverse;
+            background: #005C4B;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .controllers {
+            height: 8vh;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            align-items: center;
+            background: #222;
+        }
+
+        .controllers input {
+            background: none;
+            border: none;
+            outline: none;
+            border: 1px solid rgb(103, 103, 103);
+            height: 65%;
+            font-family: consolas;
+            width: 80%;
+            color: white;
+            font-size: 20px;
+            padding: 0 0 0 10px;
+        }
+
+        .controllers button {
+            width: 20%;
+            height: 69%;
+            background: #363636;
+            color: white;
+            cursor: pointer;
+        }
+
+        .username {
+            font-weight: 500;
+            color: rgb(175, 175, 175);
+        }
+
+        * {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div id="messageHolder">
+        <!-- <p class="firstUser">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Amet, quos?
+            <b class="username">username</b>
+        </p>
+        <p class="skjd">
+            aksdj
+            <b class="username">username</b>
+        </p> -->
+    </div>
+
+    <div class="controllers">
+        <input type="text" placeholder="Type message here" class="message">
+        <button onclick="sendMessage()">Send message</button>
+    </div>
+
+    <script>
+        // var username = prompt("Enter you name to continue")
+        const messageInput = document.querySelector('.message');
+        const socket = io('http://localhost:80');
+        socket.on('connection');
+        let parent = document.querySelector('#messageHolder');
+        socket.on('message', (data) =>
+        {
+            let child = document.createElement('p');
+            child.classList = 'skjd';
+            child.innerText = data;
+            parent.appendChild(child);
+            // let bolds = document.createElement('b');
+            // bolds.classList = 'username';
+            // bolds.textContent = username;
+            // child.appendChild(bolds);
+            messageInput.value = '';
+
+        })
+
+        const sendMessage = () =>
+        {
+            let crep = document.createElement('p');
+            const message = messageInput.value;
+            socket.emit('message', message);
+            crep.classList = 'firstUser';
+            crep.textContent = message;
+            parent.appendChild(crep);
+            // let bolds = document.createElement('b');
+            // bolds.classList = 'username';
+            // bolds.textContent = username;
+            // crep.appendChild(bolds);
+            messageInput.value = '';
+        }
+    </script>
+
+</body>
+
+</html>
