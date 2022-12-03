@@ -5,7 +5,7 @@ const io = require('socket.io')(server, { cors: { origin: "*" } });
 const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config({ path: 'config.env' });
-const port = process.env.PORT;
+const port = 5000;
 
 app.use(express.urlencoded());
 app.set('view engine', 'ejs');
